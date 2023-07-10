@@ -52,24 +52,26 @@ def Hash_File(path):
     except:
         pass
 
-DuplicateFiles = {}
-temp = []
-for i in Dirs:  
-    Join_Dictionary(DuplicateFiles, FindDuplicate(i))
-    del DuplicateFiles[None]	#Delete Directories from the dictionary, we don't need to see those in the output
-    results = DuplicateFiles	#The Duplicate files is the output result
+def Main():
+    DuplicateFiles = {}
+    temp = []
+    for i in Dirs:  
+        Join_Dictionary(DuplicateFiles, FindDuplicate(i))
+        del DuplicateFiles[None]	#Delete Directories from the dictionary, we don't need to see those in the output
+        results = DuplicateFiles	#The Duplicate files is the output result
     
-for key in results:
-    if len(DuplicateFiles[key]) == 1:
-       temp.append(key) 
-
-for x in temp: 
-    del DuplicateFiles[x]
-          
-if len(results) > 0:	#If we actually have any duplacite files
     for key in results:
-        print(key)
-        print(DuplicateFiles[key])
-        print('\n')
-else:
-    print("No Duplicate files")
+        if len(DuplicateFiles[key]) == 1:
+           temp.append(key) 
+
+    for x in temp: 
+        del DuplicateFiles[x]
+          
+    if len(results) > 0:	#If we actually have any duplacite files
+        for key in results:
+            print(key)
+            print(DuplicateFiles[key])
+            print('\n')
+    else:
+        print("No Duplicate files")
+Main()
