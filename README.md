@@ -11,4 +11,16 @@ scan the current directory
 
 `python3 main.py`
 
-you can replace python3 with ./ on linux since there is a shebang
+you can replace `python3` with `./` on linux since there is a shebang
+
+The output will only list files that have the same hash, and no single files
+
+Example:
+
+```
+ad5678997cade8869e64a90cded854fa
+['Rom.bin', 'Rom2.bin']
+```
+
+if there are no duplacite files, it'll print `No Duplicate files`
+
