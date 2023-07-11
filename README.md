@@ -24,4 +24,8 @@ ad5678997cade8869e64a90cded854fa
 
 if there are no duplicate files, it'll print `No Duplicate files`
 
-IF you have dupliicates, it'll ask you which one you want to delete, answer with an interger, because otherwise, it'll skip it
+IF you have dupliicates, it'll ask you which one you want to Keep and delete the others, answer with an interger, because otherwise, it'll skip it
+
+It writes it into a shell script, so it won't delete the files until you run the shell script
+
+Tool is for Linux/Mac only
