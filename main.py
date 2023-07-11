@@ -2,6 +2,7 @@
 # NOTE: Large directories will take a longer time to scan than smalelr ones
 import hashlib
 import os
+import re
 from sys import argv
 
 global Dirs
@@ -51,7 +52,25 @@ def Hash_File(path):
 
     except:
         pass
+def GenerateSH():
+    try:
+        Shell = open("RMDup.sh", "x")
+    except:
+        Shell = open("RMDup.sh", "w")
+ 
+    for key in files:
+        print(key)
+        x = 0
+        while x != len(files):
+            print(f"[{x}]",files[key][x])   
+            x += 1
 
+        Remove = input("Use the Numbers, or press Enter to Skip this one:\nWhich file would you like to remove: ")
+        try:
+            Remove = int(Remove)
+            Shell.write(f'rm "{files[key][Remove]}"\n')
+        except:
+            pass
 def Main():
     DuplicateFiles = {}
     temp = []
@@ -59,7 +78,8 @@ def Main():
         Join_Dictionary(DuplicateFiles, FindDuplicate(i))
         del DuplicateFiles[None]	#Delete Directories from the dictionary, we don't need to see those in the output
         results = DuplicateFiles	#The Duplicate files is the output result
-    
+
+            
     for key in results:
         if len(DuplicateFiles[key]) == 1:
            temp.append(key) 
@@ -72,6 +92,10 @@ def Main():
             print(key)
             print(DuplicateFiles[key])
             print('\n')
+        global files 
+        files = DuplicateFiles
+        GenerateSH()
     else:
         print("No Duplicate files")
 Main()
+
