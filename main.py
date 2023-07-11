@@ -61,16 +61,18 @@ def GenerateSH():
     for key in files:
         print(key)
         x = 0
-        while x != len(files):
+        while x != len(files[key]):
             print(f"[{x}]",files[key][x])   
             x += 1
 
-        Remove = input("Use the Numbers, or press Enter to Skip this one:\nWhich file would you like to remove: ")
-        try:
-            Remove = int(Remove)
-            Shell.write(f'rm "{files[key][Remove]}"\n')
-        except:
-            pass
+        Remove = input("Use the Numbers, or press Enter to Skip this one:\nWhich file would you like to Keep: ")
+
+        Remove = int(Remove)
+        del files[key][Remove]
+        x = 0
+        while x != len(files[key]):
+            Shell.write(f'rm "{files[key][x]}"\n')
+            x += 1
 def Main():
     DuplicateFiles = {}
     temp = []
