@@ -93,10 +93,10 @@ def Main():
           
     if len(results) > 0:	#If we actually have any duplacite files
         for key in results:
-            print(key)
+            print('['+key+ f']: Files with this hash: {len(DuplicateFiles[key])}')
             x = 0
             while x != len(DuplicateFiles[key]):
-                print(DuplicateFiles[key][x])
+                print('['+DuplicateFiles[key][x]+']')
                 x += 1
             print('\n')
             
