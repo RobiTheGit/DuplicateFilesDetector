@@ -101,7 +101,7 @@ def Main():
     for x in temp: 
         del DuplicateFiles[x]
           
-    if len(results) > 0:	#If we actually have any duplacite files
+    if len(results) > 0:	#If we actually have any Duplicate files
         for key in results:
             print('['+key+ f']: Files with this hash: {len(DuplicateFiles[key])}')
             x = 0
