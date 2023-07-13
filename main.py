@@ -4,6 +4,16 @@ import hashlib
 import os
 import re
 from sys import argv
+import sys
+global ext
+global cmdName
+
+if sys.platform.startswith("win32") or sys.platform.startswith('cygwin'):
+    ext = 'bat'
+    cmdName = "del"
+else:
+    ext = 'sh'
+    cmdName = "rm"
 
 global Dirs
 try:
@@ -54,9 +64,9 @@ def Hash_File(path):
         pass
 def GenerateSH():
     try:
-        Shell = open("RMDup.sh", "x")
+        Shell = open(f"RMDup.{ext}", "x")
     except:
-        Shell = open("RMDup.sh", "w")
+        Shell = open(f"RMDup.{ext}", "w")
  
     for key in files:
         print(key)
@@ -71,7 +81,7 @@ def GenerateSH():
             del files[key][Remove]
             x = 0
             while x != len(files[key]):
-                Shell.write(f'rm "{files[key][x]}"\n')
+                Shell.write(f'{cmdName} "{files[key][x]}"\n')
                 x += 1
         except:
             pass
