@@ -92,19 +92,18 @@ def Main():
         Join_Dictionary(DuplicateFiles, FindDuplicate(i))
         try:
            del DuplicateFiles[None]	#Delete Directories from the dictionary, we don't need to see those in the output
-           results = DuplicateFiles	#The Duplicate files is the output result
         except:
            pass
 
-    for key in results:
+    for key in DuplicateFiles:
         if len(DuplicateFiles[key]) == 1:
            temp.append(key) 
 
     for x in temp: 
         del DuplicateFiles[x]
           
-    if len(results) > 0:	#If we actually have any Duplicate files
-        for key in results:
+    if len(DuplicateFiles) > 0:	#If we actually have any Duplicate files
+        for key in DuplicateFiles:
             print('['+key+ f']: Files with this hash: {len(DuplicateFiles[key])}')
             x = 0
             while x != len(DuplicateFiles[key]):
