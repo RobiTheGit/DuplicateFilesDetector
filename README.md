@@ -19,7 +19,10 @@ Example:
 
 ```
 ad5678997cade8869e64a90cded854fa
-['Rom.bin', 'Rom2.bin']
+
+['Rom.bin']
+
+['Rom2.bin']
 ```
 
 if there are no duplicate files, it'll print `No Duplicate files`
