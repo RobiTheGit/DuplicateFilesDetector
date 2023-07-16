@@ -46,8 +46,6 @@ def Join_Dictionary(dict_1, dict_2):
         else:
             dict_1[key] = dict_2[key]
 
-
-
 def Hash_File(path):  
     try: 
         BinFile = open(path, 'rb')
@@ -68,20 +66,20 @@ def GenerateSH():
     except:
         Shell = open(f"RMDup.{ext}", "w")
  
-    for key in files:
-        print(key)
+    for file_hash in files:
+        print(file_hash, "\n")
         x = 0
-        while x != len(files[key]):
-            print(f"[{x}]",files[key][x])   
+        while x != len(files[file_hash]):
+            print(f"[{x}]",files[file_hash][x],"\n")   
             x += 1
 
-        Remove = input("Use the Numbers, or press Enter to Skip this one:\nWhich file would you like to Keep: ")
+        Remove = input("Use the Numbers, or press Enter to Skip this one:\nWhich file would you like to Keep:\n> ")
         try:
             Remove = int(Remove)
-            del files[key][Remove]
+            del files[file_hash][Remove]
             x = 0
-            while x != len(files[key]):
-                Shell.write(f'{cmdName} "{files[key][x]}"\n')
+            while x != len(files[file_hash]):
+                Shell.write(f'{cmdName} "{files[file_hash][x]}"\n')
                 x += 1
         except:
             pass
@@ -91,23 +89,23 @@ def Main():
     for i in Dirs:  
         Join_Dictionary(DuplicateFiles, FindDuplicate(i))
         try:
-           del DuplicateFiles[None]	#Delete Directories from the dictionary, we don't need to see those in the output
+           del DuplicateFiles[None]	# Delete Directories from the dictionary, we don't need to see those in the output, and they are none type
         except:
            pass
 
-    for key in DuplicateFiles:
-        if len(DuplicateFiles[key]) == 1:
-           temp.append(key) 
+    for file_hash in DuplicateFiles:
+        if len(DuplicateFiles[file_hash]) == 1:
+           temp.append(file_hash) 
 
     for x in temp: 
         del DuplicateFiles[x]
           
     if len(DuplicateFiles) > 0:	#If we actually have any Duplicate files
-        for key in DuplicateFiles:
-            print('['+key+ f']: Files with this hash: {len(DuplicateFiles[key])}')
+        for file_hash in DuplicateFiles:
+            print('['+file_hash+ f']: Files with this hash: {len(DuplicateFiles[file_hash])}')
             x = 0
-            while x != len(DuplicateFiles[key]):
-                print('['+DuplicateFiles[key][x]+']')
+            while x != len(DuplicateFiles[file_hash]):
+                print('['+DuplicateFiles[file_hash][x]+']')
                 x += 1
             print('\n')
             
@@ -117,4 +115,3 @@ def Main():
     else:
         print("No Duplicate files")
 Main()
-
