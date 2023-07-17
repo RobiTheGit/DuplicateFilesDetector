@@ -7,21 +7,23 @@ from sys import argv
 import sys
 global ext
 global cmdName
+global cmdtorun
 
 if sys.platform.startswith("win32") or sys.platform.startswith('cygwin'):
     ext = 'bat'
     cmdName = "del"
+    cmdtorun = "RMDup.bat"
 else:
     ext = 'sh'
     cmdName = "rm"
-
+    cmdtorun = "./RMDup.sh"
 global Dirs
 try:
     script, RMPATH = argv
-    
+ 
 except:
     RMPATH = os.getcwd()
-    
+print("Duplicate files in:",RMPATH)    
 global DuplicateFiles
 DuplicateFiles = {}
 Dirs = sorted(os.listdir(RMPATH))
@@ -48,29 +50,31 @@ def Join_Dictionary(dict_1, dict_2):
 
 def Hash_File(path):  
     try: 
-        BinFile = open(path, 'rb')
-        hasher = hashlib.md5()	#MD5 because it has way smaller hashes, making it easier to work with
-        BUFFER_SIZE=65536		#Buffer size, 64 Kilobits
-        buf = BinFile.read(BUFFER_SIZE)	#Read as much of the file as the buffer_size will allow the system to at once
-        while len(buf) > 0:
-            hasher.update(buf)
-            buf = BinFile.read(BUFFER_SIZE)
-        BinFile.close()
-        return hasher.hexdigest()
-
+        with open(path, 'rb') as BinFile:
+            hasher = hashlib.md5()	#MD5 because it has way smaller hashes, making it easier to work with
+            BUFFER_SIZE=1048576		#Buffer size, 1024 Kilobits
+            buf = BinFile.read(BUFFER_SIZE)	#Read as much of the file as the buffer_size will allow the system to at once
+            while len(buf) > 0:
+                hasher.update(buf)
+                buf = BinFile.read(BUFFER_SIZE)
+            BinFile.close()
+            return hasher.hexdigest()
     except:
         pass
 def GenerateSH():
-    try:
+    try:	#Try to make RMDup.bat/sh
         Shell = open(f"RMDup.{ext}", "x")
-    except:
+        if ext == "sh":
+            os.system("chmod +x RMDup.sh")
+    except:	#if it exists, just overwrite the file
         Shell = open(f"RMDup.{ext}", "w")
- 
+        if ext == "sh":
+            os.system("chmod +x RMDup.sh")
     for file_hash in files:
         print(file_hash, "\n")
         x = 0
         while x != len(files[file_hash]):
-            print(f"[{x}]",files[file_hash][x],"\n")   
+            print(f"[{x}] {files[file_hash][x]}\n")   
             x += 1
 
         Remove = input("Use the Numbers, or press Enter to Skip this one:\nWhich file would you like to Keep:\n> ")
@@ -79,10 +83,16 @@ def GenerateSH():
             del files[file_hash][Remove]
             x = 0
             while x != len(files[file_hash]):
-                Shell.write(f'{cmdName} "{files[file_hash][x]}"\n')
+                Shell.write(f'{cmdName} "{RMPATH}/{files[file_hash][x]}"\n')
                 x += 1
         except:
             pass
+    Choice = input('Delete files now? [y/N]:\n> ')
+    if Choice.upper() == "Y":
+        Shell.close()
+        os.system(cmdtorun)
+    else:
+        sys.exit(0) 
 def Main():
     DuplicateFiles = {}
     temp = []
@@ -102,10 +112,10 @@ def Main():
           
     if len(DuplicateFiles) > 0:	#If we actually have any Duplicate files
         for file_hash in DuplicateFiles:
-            print('['+file_hash+ f']: Files with this hash: {len(DuplicateFiles[file_hash])}')
+            print(f'[{file_hash}]: Files with this hash: {len(DuplicateFiles[file_hash])}')
             x = 0
             while x != len(DuplicateFiles[file_hash]):
-                print('['+DuplicateFiles[file_hash][x]+']')
+                print(f'[{DuplicateFiles[file_hash][x]}]')
                 x += 1
             print('\n')
             
