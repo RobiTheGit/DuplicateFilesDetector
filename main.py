@@ -1,5 +1,10 @@
 #!/usr/bin/python3
-# NOTE: Large directories will take a longer time to scan than smalelr ones
+# NOTE: Large directories will take a longer time to scan than smaller ones
+# This is not recurssive, and if it was, you'd basically be waiting days for it to finish unless you main and sub-directories were really small
+# 
+# RMDup, Remove Duplicate Files
+# RobiTheGit, 2023
+
 import hashlib
 import os
 import re
@@ -8,7 +13,7 @@ import sys
 global ext
 global cmdName
 global cmdtorun
-
+#	Define any system specific variables
 if sys.platform.startswith("win32") or sys.platform.startswith('cygwin'):
     ext = 'bat'
     cmdName = "del"
@@ -23,16 +28,15 @@ try:
  
 except:
     RMPATH = os.getcwd()
-print("Duplicate files in:",RMPATH)    
 global DuplicateFiles
 DuplicateFiles = {}
 Dirs = sorted(os.listdir(RMPATH))
 
-def FindDuplicate(SupFolder):
+def RMDup_FindDuplicate(SupFolder):
     DuplicateFiles = {}
     for file_name in Dirs:
         path = os.path.join(RMPATH, file_name)
-        file_hash = Hash_File(path)
+        file_hash = RMDup_Hash_File(path)
         
         if file_hash in DuplicateFiles:
            DuplicateFiles[file_hash].append(file_name)	#Add a filename to the list for the hash
@@ -41,14 +45,14 @@ def FindDuplicate(SupFolder):
 
     return DuplicateFiles
 
-def Join_Dictionary(dict_1, dict_2):
+def RMDup_Join_Dictionary(dict_1, dict_2):
     for key in dict_2.keys():
         if key in dict_1:
             pass	# Keeps Us from having 4 or more of the same file in a list
         else:
             dict_1[key] = dict_2[key]
 
-def Hash_File(path):  
+def RMDup_Hash_File(path):  
     try: 
         with open(path, 'rb') as BinFile:
             hasher = hashlib.md5()	#MD5 because it has way smaller hashes, making it easier to work with
@@ -61,7 +65,7 @@ def Hash_File(path):
             return hasher.hexdigest()
     except:
         pass
-def GenerateSH():
+def RMDup_GenerateSH():
     try:	#Try to make RMDup.bat/sh
         Shell = open(f"RMDup.{ext}", "x")
         if ext == "sh":
@@ -83,21 +87,25 @@ def GenerateSH():
             del files[file_hash][Remove]
             x = 0
             while x != len(files[file_hash]):
-                Shell.write(f'{cmdName} "{RMPATH}/{files[file_hash][x]}"\n')
+                DupFilePath = f'"{RMPATH}/{files[file_hash][x]}"'
+                Shell.write(f'{cmdName} {DupFilePath}\n')
                 x += 1
         except:
             pass
     Choice = input('Delete files now? [y/N]:\n> ')
-    if Choice.upper() == "Y":
+    if Choice.upper().startswith("Y"):
         Shell.close()
         os.system(cmdtorun)
     else:
-        sys.exit(0) 
-def Main():
+        if __name__ == "__main__":
+            sys.exit(0)
+        else:
+            pass
+def RMDup():
     DuplicateFiles = {}
     temp = []
     for i in Dirs:  
-        Join_Dictionary(DuplicateFiles, FindDuplicate(i))
+        RMDup_Join_Dictionary(DuplicateFiles, RMDup_FindDuplicate(i))
         try:
            del DuplicateFiles[None]	# Delete Directories from the dictionary, we don't need to see those in the output, and they are none type
         except:
@@ -109,8 +117,8 @@ def Main():
 
     for x in temp: 
         del DuplicateFiles[x]
-          
-    if len(DuplicateFiles) > 0:	#If we actually have any Duplicate files
+    print("Duplicate files in:",RMPATH)
+    if len(DuplicateFiles) > 0:	# If we actually have any Duplicate files
         for file_hash in DuplicateFiles:
             print(f'[{file_hash}]: Files with this hash: {len(DuplicateFiles[file_hash])}')
             x = 0
@@ -121,7 +129,9 @@ def Main():
             
         global files 
         files = DuplicateFiles
-        GenerateSH()
+        RMDup_GenerateSH()
     else:
         print("No Duplicate files")
-Main()
+
+if __name__ == "__main__":
+    RMDup()
