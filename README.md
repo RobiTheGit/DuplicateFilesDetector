@@ -33,4 +33,4 @@ It writes it into a shell or batch script, so it won't delete the files until yo
 
 Tool is for is for Linux, Mac, and Windows
 
-If you want, in the directory of whatever code you are writing, you can include the code and in whatever you may be writing, add `import rmdup` and then call the code with `rmdup.RMDup()`
+If you want, in the working directory of whatever code you are writing, you can include the code and in whatever you may be writing, add `import rmdup` and then call the code with `rmdup.RMDup()`
