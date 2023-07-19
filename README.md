@@ -13,6 +13,8 @@ scan the current directory
 
 you can replace `python3` with `./` on linux since there is a shebang, and on windows, replace `python3` with `python`
 
+to do the `./rmdup.py` method, you'll have to run `chmod +x rmdup.py`
+
 The output will only list files that have the same hash, and no single files
 
 Example:
