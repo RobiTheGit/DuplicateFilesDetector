@@ -1,10 +1,13 @@
 #!/usr/bin/python3
-# NOTE: Large directories will take a longer time to scan than smaller ones
-# This is not recurssive, and if it was, you'd basically be waiting days for it to finish unless you main and sub-directories were really small
+# NOTE: Large directories will take a longer time to scan than smaller ones, but not nearly as long as it used to
+# This is not recurssive, and if it was, you'd be waiting days for it to finish unless you main and sub-directories were really small
 # 
 # RMDup, Remove Duplicate Files
+#
 # RobiTheGit, 2023
-
+#
+# This searches for duplicate files, then outputs them in a nice fashion, asks you what you want to keep, and after generating a script,
+# asks you if you want to delete them, and if you enter "y" (not case-sensitive), deletes them
 import hashlib
 import os
 import re
@@ -81,9 +84,10 @@ class RemoveDuplicates():
         except:
             pass
 
-#
-#
-#
+# This is the code to generate shell or batch scripts fopr deleting the files, as well as actually deleting the files if you choose to do so
+# The function name is a bit of a misnomer since it doesn't just generate shell scripts anymore, however, when I originally worte the function, I only hade Posix systems in mind
+# We create or open the file, and if we are on linux, give permission to execute it, then ask for input of which file to keep, which you can skip and keep alll of them if you'd like
+# Then we ask for input we we have finished writing the entire script if they want to delete the files, all this really does is exceute the scipt we generated
 
     def RMDup_GenerateSH():
 
@@ -125,10 +129,12 @@ class RemoveDuplicates():
             else:
                 pass
 
-#
-#
-#
-#
+# The main function, and the one you call to run this outside of this script
+# it clears our lists and dictionaries for us
+# This is really just a handler to run all of the functions inside the RemoveDuplicates class
+# It also prints out the duplicate files, or tells the user if there aren't any
+# From our DuplicateFiles dictionary, we delete directories or files that aren't duplicates here
+
 
 def RMDup():
     DuplicateFiles = {}
