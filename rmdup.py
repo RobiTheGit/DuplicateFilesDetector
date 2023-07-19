@@ -64,14 +64,14 @@ class RemoveDuplicates():
 # This is the function to get the MD5 file hash for testing what files are duplicates
 # We open the file that is being read in RMDup_FindDuplicate() with read-binary mode, and with the variable name BinFile
 # We set our hasher method to MD5, Message-Digest Algorithm 5, hashing since it has pretty small hashes, making it a bit easier to work with
-# The buffer size is 0 kilobits, which makes it really fast
+# The buffer size is 1024 kilobits, which is less than a gig, so most machines should be able to run it, but this is why large directories take a long time to scan
 # 
 
     def RMDup_Hash_File(path):  
         try: 
             with open(path, 'rb') as BinFile:
                 hasher = hashlib.md5()	#MD5 because it has way smaller hashes, making it easier to work with
-                BUFFER_SIZE=0		# 0 Kilobits
+                BUFFER_SIZE=1048576*100		#Buffer size, 1024 Kilobits
                 buf = BinFile.read(BUFFER_SIZE)	#Read as much of the file as the buffer_size will allow the system to at once
                 while len(buf) > 0:
                     hasher.update(buf)
