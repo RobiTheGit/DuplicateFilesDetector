@@ -32,80 +32,85 @@ global DuplicateFiles
 DuplicateFiles = {}
 Dirs = sorted(os.listdir(RMPATH))
 
-def RMDup_FindDuplicate(SupFolder):
-    DuplicateFiles = {}
-    for file_name in Dirs:
-        path = os.path.join(RMPATH, file_name)
-        file_hash = RMDup_Hash_File(path)
-        
-        if file_hash in DuplicateFiles:
-           DuplicateFiles[file_hash].append(file_name)	#Add a filename to the list for the hash
-        else:
-            DuplicateFiles[file_hash] = [file_name]	#Make a list for the hash
+class RemoveDuplicates():
+    def RMDup_FindDuplicate(SupFolder):
+        DuplicateFiles = {}
+        for file_name in Dirs:
+            path = os.path.join(RMPATH, file_name)
+            file_hash = RemoveDuplicates.RMDup_Hash_File(path)
 
-    return DuplicateFiles
+            if file_hash in DuplicateFiles:
+               DuplicateFiles[file_hash].append(file_name)	#Add a filename to the list for the hash
+            else:
+                DuplicateFiles[file_hash] = [file_name]	#Make a list for the hash
 
-def RMDup_Join_Dictionary(dict_1, dict_2):
-    for key in dict_2.keys():
-        if key in dict_1:
-            pass	# Keeps Us from having 4 or more of the same file in a list
-        else:
-            dict_1[key] = dict_2[key]
+        return DuplicateFiles
 
-def RMDup_Hash_File(path):  
-    try: 
-        with open(path, 'rb') as BinFile:
-            hasher = hashlib.md5()	#MD5 because it has way smaller hashes, making it easier to work with
-            BUFFER_SIZE=1048576		#Buffer size, 1024 Kilobits
-            buf = BinFile.read(BUFFER_SIZE)	#Read as much of the file as the buffer_size will allow the system to at once
-            while len(buf) > 0:
-                hasher.update(buf)
-                buf = BinFile.read(BUFFER_SIZE)
-            BinFile.close()
-            return hasher.hexdigest()
-    except:
-        pass
-def RMDup_GenerateSH():
-    try:	#Try to make RMDup.bat/sh
-        Shell = open(f"RMDup.{ext}", "x")
-        if ext == "sh":
-            os.system("chmod +x RMDup.sh")
-    except:	#if it exists, just overwrite the file
-        Shell = open(f"RMDup.{ext}", "w")
-        if ext == "sh":
-            os.system("chmod +x RMDup.sh")
-    for file_hash in files:
-        print(file_hash, "\n")
-        x = 0
-        while x != len(files[file_hash]):
-            print(f"[{x}] {files[file_hash][x]}\n")   
-            x += 1
+    def RMDup_Join_Dictionary(dict_1, dict_2):
+        for key in dict_2.keys():
+            if key in dict_1:
+                pass	# Keeps Us from having 4 or more of the same file in a list
+            else:
+                dict_1[key] = dict_2[key]
 
-        Remove = input("Use the Numbers, or press Enter to Skip this one:\nWhich file would you like to Keep:\n> ")
-        try:
-            Remove = int(Remove)
-            del files[file_hash][Remove]
-            x = 0
-            while x != len(files[file_hash]):
-                DupFilePath = f'"{RMPATH}/{files[file_hash][x]}"'
-                Shell.write(f'{cmdName} {DupFilePath}\n')
-                x += 1
+    def RMDup_Hash_File(path):  
+        try: 
+            with open(path, 'rb') as BinFile:
+                hasher = hashlib.md5()	#MD5 because it has way smaller hashes, making it easier to work with
+                BUFFER_SIZE=1048576		#Buffer size, 1024 Kilobits
+                buf = BinFile.read(BUFFER_SIZE)	#Read as much of the file as the buffer_size will allow the system to at once
+                while len(buf) > 0:
+                    hasher.update(buf)
+                    buf = BinFile.read(BUFFER_SIZE)
+                BinFile.close()
+                return hasher.hexdigest()
         except:
             pass
-    Choice = input('Delete files now? [y/N]:\n> ')
-    if Choice.upper().startswith("Y"):
-        Shell.close()
-        os.system(cmdtorun)
-    else:
-        if __name__ == "__main__":
-            sys.exit(0)
+    def RMDup_GenerateSH():
+
+        try:	#Try to make RMDup.bat/sh
+            Shell = open(f"RMDup.{ext}", "x")
+            if ext == "sh":
+                os.system("chmod +x RMDup.sh")
+    
+        except:	#if it exists, just overwrite the file
+            Shell = open(f"RMDup.{ext}", "w")
+            if ext == "sh":
+                os.system("chmod +x RMDup.sh")
+
+        for file_hash in files:
+            print(file_hash, "\n")
+            x = 0
+            while x != len(files[file_hash]):
+                print(f"[{x}] {files[file_hash][x]}\n")   
+                x += 1
+
+            Remove = input("Use the Numbers, or press Enter to Skip this one:\nWhich file would you like to Keep:\n> ")
+            try:
+                Remove = int(Remove)
+                del files[file_hash][Remove]
+                x = 0
+                while x != len(files[file_hash]):
+                    DupFilePath = f'"{RMPATH}/{files[file_hash][x]}"'
+                    Shell.write(f'{cmdName} {DupFilePath}\n')
+                    x += 1
+            except:
+                pass
+        Choice = input('Delete files now? [y/N]:\n> ')
+        if Choice.upper().startswith("Y"):
+            Shell.close()
+            os.system(cmdtorun)
         else:
-            pass
+            if __name__ == "__main__":
+                sys.exit(0)
+            else:
+                pass
+
 def RMDup():
     DuplicateFiles = {}
     temp = []
     for i in Dirs:  
-        RMDup_Join_Dictionary(DuplicateFiles, RMDup_FindDuplicate(i))
+        RemoveDuplicates.RMDup_Join_Dictionary(DuplicateFiles, RemoveDuplicates.RMDup_FindDuplicate(i))
         try:
            del DuplicateFiles[None]	# Delete Directories from the dictionary, we don't need to see those in the output, and they are none type
         except:
@@ -129,7 +134,7 @@ def RMDup():
             
         global files 
         files = DuplicateFiles
-        RMDup_GenerateSH()
+        RemoveDuplicates.RMDup_GenerateSH()
     else:
         print("No Duplicate files")
 
