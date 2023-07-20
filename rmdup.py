@@ -26,14 +26,18 @@ else:
     cmdName = "rm"
     cmdtorun = "./RMDup.sh"
 global Dirs
-try:
-    script, RMPATH = argv
+if __name__ == "__main__":
+    try:
+        script, RMPATH = argv
  
-except:
-    RMPATH = os.getcwd()
+    except:
+        RMPATH = os.getcwd()
+
+
+
 global DuplicateFiles
 DuplicateFiles = {}
-Dirs = sorted(os.listdir(RMPATH))
+
 
 class RemoveDuplicates():
 # This is the code that finds duplicate files
@@ -67,14 +71,14 @@ class RemoveDuplicates():
 # This is the function to get the MD5 file hash for testing what files are duplicates
 # We open the file that is being read in RMDup_FindDuplicate() with read-binary mode, and with the variable name BinFile
 # We set our hasher method to MD5, Message-Digest Algorithm 5, hashing since it has pretty small hashes, making it a bit easier to work with
-# The buffer size is 16000000 Kilobits, which is 2 Gigabytes, so most machines should be able to run it, but some older hardware may not be able to run it
+# The buffer size is 8000000 Kilobits, which is 1 Gigabyte, so most machines should be able to run it, but some older hardware may not be able to run it
 # We multiply it by 1024 to make it work in the code, and so it is a lot easier for me, Robi, to change
 
     def RMDup_Hash_File(path):  
         try: 
             with open(path, 'rb') as BinFile:
                 hasher = hashlib.md5()	#MD5 because it has way smaller hashes, making it easier to work with
-                BUFFER_SIZE=16000000		#Buffer size, 16000000 Kilobits, or 2 Gigabytes
+                BUFFER_SIZE=8000000		#Buffer size, 8000000 Kilobits, or 1 Gigabyte
                 buf = BinFile.read(BUFFER_SIZE*1024)	#Read as much of the file as the buffer_size will allow the system to at once
                 while len(buf) > 0:
                     hasher.update(buf)
@@ -136,7 +140,14 @@ class RemoveDuplicates():
 # From our DuplicateFiles dictionary, we delete directories or files that aren't duplicates here
 
 
-def RMDup():
+def RMDup(Directory):
+    global Dirs
+    if not __name__ == '__main__':
+        global RMPATH
+        RMPATH = Directory
+        Dirs = Directory
+        Dirs = sorted(os.listdir(Directory))    
+ 
     DuplicateFiles = {}
     temp = []
     for i in Dirs:  
@@ -152,6 +163,7 @@ def RMDup():
 
     for x in temp: 
         del DuplicateFiles[x]
+        
     print("Duplicate files in:",RMPATH)
     if len(DuplicateFiles) > 0:	# If we actually have any Duplicate files
         for file_hash in DuplicateFiles:
@@ -169,4 +181,5 @@ def RMDup():
         print("No Duplicate files")
 
 if __name__ == "__main__":
-    RMDup()
+    Dirs = sorted(os.listdir(RMPATH))
+    RMDup(Dirs)
