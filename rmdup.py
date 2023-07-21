@@ -164,10 +164,10 @@ def RMDup(Directory):
     for x in temp: 
         del DuplicateFiles[x]
         
-    print("Duplicate files in:",RMPATH)
+    print(f"Duplicate files in: {RMPATH}/")
     if len(DuplicateFiles) > 0:	# If we actually have any Duplicate files
         for file_hash in DuplicateFiles:
-            print(f'[{file_hash}]: Files with this hash: {len(DuplicateFiles[file_hash])}')
+            print(f'[{file_hash}]: Files with the hash: {len(DuplicateFiles[file_hash])}')
             x = 0
             while x != len(DuplicateFiles[file_hash]):
                 print(f'[{DuplicateFiles[file_hash][x]}]')
@@ -178,7 +178,7 @@ def RMDup(Directory):
         files = DuplicateFiles
         RemoveDuplicates.RMDup_GenerateSH()
     else:
-        print("No Duplicate files")
+        print("No Duplicate files in: {RMPATH}/")
 
 if __name__ == "__main__":
     Dirs = sorted(os.listdir(RMPATH))
