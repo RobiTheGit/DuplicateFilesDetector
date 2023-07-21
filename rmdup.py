@@ -99,7 +99,7 @@ class RemoveDuplicates():
             Shell = open(f"RMDup.{ext}", "x")
             if ext == "sh":
                 os.system("chmod +x RMDup.sh")
-    
+
         except:	#if it exists, just overwrite the file
             Shell = open(f"RMDup.{ext}", "w")
             if ext == "sh":
@@ -167,7 +167,7 @@ def RMDup(Directory):
     print(f"Duplicate files in: {RMPATH}/")
     if len(DuplicateFiles) > 0:	# If we actually have any Duplicate files
         for file_hash in DuplicateFiles:
-            print(f'[{file_hash}]: Files with the hash: {len(DuplicateFiles[file_hash])}')
+            print(f'[{file_hash}]: Files with the hash: ({len(DuplicateFiles[file_hash])})')
             x = 0
             while x != len(DuplicateFiles[file_hash]):
                 print(f'[{DuplicateFiles[file_hash][x]}]')
