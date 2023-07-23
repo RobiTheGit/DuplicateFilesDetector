@@ -35,3 +35,6 @@ IF you have dupliicates, it'll ask you which one you want to Keep and delete the
 It writes it into a shell or batch script, so it won't delete the files until you run the shell or batch script, but it'll ask you in the program if you want to delete them now, type "y" to do so, otherwise, it exits the program.
 
 If you want, in the working directory of whatever code you are writing, you can include the code and in whatever you may be writing, add `import rmdup` and then call the code with `rmdup.RMDup(path)` with `path` being the path you want to use. See [randomscript.py](https://github.com/RobiTheGit/RMDup/blob/main/randomscript.py) for an example script
+
+Ie you want to make a file copy, import rmdup and then add `rmdup.CopyFile(Input, Ouput)` `Input` being the file to copy and `Output` being the name of the copied file.
+See [cpfile.py](https://github.com/RobiTheGit/RMDup/blob/main/cpfile.py) for an example script with this
