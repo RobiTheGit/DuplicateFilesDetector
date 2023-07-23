@@ -8,6 +8,6 @@ Import the OS Operating System Functions Module
 '''
 import os
 '''
-Run RMDup's Duplicate File Detector in the Current Working Directory
+Run RMDup's Duplicate File Detector in the Current Working Directory, the function must have absolute paths
 '''
 rmdup.RMDup(os.getcwd())

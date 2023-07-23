@@ -8,6 +8,10 @@
 #
 # This searches for duplicate files, then outputs them in a nice fashion, asks you what you want to keep, and after generating a script,
 # asks you if you want to delete them, and if you enter "y" (not case-sensitive), deletes them
+#
+# Also, you can make duplicate files
+#
+
 import hashlib
 import os
 import re
@@ -179,7 +183,7 @@ def RMDup(Directory):
         files = DuplicateFiles
         RemoveDuplicates.RMDup_GenerateSH()
     else:
-        print("No Duplicate files in: {RMPATH}/")
+        print(f"No Duplicate files in: {RMPATH}/")
 
 def CopyFile(INPUT, OUPUT):
     shutil.copyfile(INPUT, OUPUT)
