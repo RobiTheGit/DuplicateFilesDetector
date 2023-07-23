@@ -13,6 +13,7 @@ import os
 import re
 from sys import argv
 import sys
+import shutil
 global ext
 global cmdName
 global cmdtorun
@@ -179,6 +180,9 @@ def RMDup(Directory):
         RemoveDuplicates.RMDup_GenerateSH()
     else:
         print("No Duplicate files in: {RMPATH}/")
+
+def CopyFile(INPUT, OUPUT):
+    shutil.copyfile(INPUT, OUPUT)
 
 if __name__ == "__main__":
     Dirs = sorted(os.listdir(RMPATH))
