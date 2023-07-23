@@ -38,3 +38,7 @@ If you want, in the working directory of whatever code you are writing, you can 
 
 If you want to make a file copy, import rmdup and then add `rmdup.CopyFile(Input, Ouput)` `Input` being the file to copy and `Output` being the name of the copied file.
 See [cpfile.py](https://github.com/RobiTheGit/RMDup/blob/main/cpfile.py) for an example script with this
+
+File paths can be relative or absolute
+
+Directory Paths have to be absolute
