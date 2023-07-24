@@ -44,7 +44,7 @@ global DuplicateFiles
 DuplicateFiles = {}
 
 
-class RemoveDuplicates():
+class RemoveDuplicates(object):
 # This is the code that finds duplicate files
 # We start wiht an empty dictionary to fill with file hashes, and a list of files that use that hash
 # We call to hash the file in RMDup_Hash_File() with the path being RMPATH, the directory to search, and the file name
@@ -187,7 +187,17 @@ def RMDup(Directory):
 
 def CopyFile(INPUT, OUPUT):
     shutil.copyfile(INPUT, OUPUT)
-
+def GetHash(INPUT):
+    with open(INPUT, 'rb') as BinFile:
+        hasher = hashlib.md5()	#MD5 because it has way smaller hashes, making it easier to work with
+        BUFFER_SIZE=8000000		#Buffer size, 8000000 Kilobits, or 1 Gigabyte
+        buf = BinFile.read(BUFFER_SIZE*1024)	#Read as much of the file as the buffer_size will allow the system to at once
+        while len(buf) > 0:
+            hasher.update(buf)
+            buf = BinFile.read(BUFFER_SIZE*1024)
+        BinFile.close()
+        print(hasher.hexdigest()) 
+          
 if __name__ == "__main__":
     Dirs = sorted(os.listdir(RMPATH))
     RMDup(Dirs)
