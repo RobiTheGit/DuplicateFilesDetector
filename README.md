@@ -1,5 +1,5 @@
 # RMDup
-Large Directories May Take a Long Time To Scan.
+Large Directories Will Take a Long Time To Scan.
 
 Tool is for is for Linux, Mac, and Windows
 
