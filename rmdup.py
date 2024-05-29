@@ -1,30 +1,30 @@
 #!/usr/bin/python3
-# NOTE/WARNING: Large directories will take a longer time to scan than smaller ones, but not nearly as long as it used to
-# This is not recurssive, and if it was, you'd be waiting days for it to finish unless you main and sub-directories were really small
-# 
-# RMDup, Remove Duplicate Files
-#
-# RobiTheGit, 2023
-#
-# This searches for duplicate files, then outputs them in a nice fashion, asks you what you want to keep, and after generating a script, asks you if you want to delete them, and if you enter "y" (not case-sensitive), deletes them
-#
-#
-#   If you want examples on how to use the code, look at these files:
-#       *   randomscript.py
-#       *   GetHash.py
-#       *   cpfile.py
-#       *   README.md
+
+'''
+   NOTE/WARNING: Large directories will take more time to scan
+   This is not recurssive, so it only does the current working directory
+
+   RMDup, Remove Duplicate Files
+
+   RobiTheGit, 2023 - 2024
+
+ This searches for duplicate files, then outputs them in a nice fashion, asks you what you want to keep, and after generating a script, asks you if you want to delete them, and if you enter "y" (not case-sensitive), deletes them
 
 
-import hashlib
-import os
-import re
+   If you want examples on how to use the code, look at these files:
+       *   randomscript.py
+       *   GetHash.py
+       *   cpfile.py
+       *   README.md
+'''
+
+import hashlib, os, re, sys, shutil
 from sys import argv
-import sys
-import shutil
-global ext
-global cmdName
-global cmdtorun
+
+global ext, cmdName, cmdtorun, DuplicateFiles, Dirs
+
+DuplicateFiles = {}
+
 #	Define any system specific variables
 if sys.platform.startswith("win32") or sys.platform.startswith('cygwin'):
     ext = 'bat'
@@ -34,18 +34,13 @@ else:
     ext = 'sh'
     cmdName = "rm"
     cmdtorun = "./RMDup.sh"
-global Dirs
+
 if __name__ == "__main__":
     try:
         script, RMPATH = argv
  
     except:
         RMPATH = os.getcwd()
-
-
-
-global DuplicateFiles
-DuplicateFiles = {}
 
 
 class RemoveDuplicates(object):
