@@ -1,16 +1,20 @@
 #!/usr/bin/python3
-# NOTE: Large directories will take a longer time to scan than smaller ones, but not nearly as long as it used to
+# NOTE/WARNING: Large directories will take a longer time to scan than smaller ones, but not nearly as long as it used to
 # This is not recurssive, and if it was, you'd be waiting days for it to finish unless you main and sub-directories were really small
 # 
 # RMDup, Remove Duplicate Files
 #
 # RobiTheGit, 2023
 #
-# This searches for duplicate files, then outputs them in a nice fashion, asks you what you want to keep, and after generating a script,
-# asks you if you want to delete them, and if you enter "y" (not case-sensitive), deletes them
+# This searches for duplicate files, then outputs them in a nice fashion, asks you what you want to keep, and after generating a script, asks you if you want to delete them, and if you enter "y" (not case-sensitive), deletes them
 #
-# Also, you can make duplicate files
 #
+#   If you want examples on how to use the code, look at these files:
+#       *   randomscript.py
+#       *   GetHash.py
+#       *   cpfile.py
+#       *   README.md
+
 
 import hashlib
 import os
@@ -132,6 +136,7 @@ class RemoveDuplicates(object):
         if Choice.upper().startswith("Y"):
             Shell.close()
             os.system(cmdtorun)
+            os.remove(cmdtorun)
         else:
             if __name__ == "__main__":
                 sys.exit(0)
