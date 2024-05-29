@@ -8,7 +8,7 @@
 
    RobiTheGit, 2023 - 2024
 
- This searches for duplicate files, then outputs them in a nice fashion, asks you what you want to keep, and after generating a script, asks you if you want to delete them, and if you enter "y" (not case-sensitive), deletes them
+    This searches for duplicate files, then outputs them in a nice fashion, asks you what you want to keep, and after generating a script, asks you if you want to delete them, and if you enter "y" (not case-sensitive), deletes them
 
 
    If you want examples on how to use the code, look at these files:
@@ -16,6 +16,7 @@
        *   GetHash.py
        *   cpfile.py
        *   README.md
+
 '''
 
 import hashlib, os, re, sys, shutil
@@ -38,7 +39,6 @@ else:
 if __name__ == "__main__":
     try:
         script, RMPATH = argv
- 
     except:
         RMPATH = os.getcwd()
 
@@ -99,12 +99,12 @@ class RemoveDuplicates(object):
 
     def RMDup_GenerateSH():
 
-        try:	#Try to make RMDup.bat/sh
+        try:	#Try to make the shell / batch script
             Shell = open(f"RMDup.{ext}", "x")
             if ext == "sh":
                 os.system("chmod +x RMDup.sh")
 
-        except:	#if it exists, just overwrite the file
+        except:	#If the script already exists, overwrite the file (This is possible, but very unlikely)
             Shell = open(f"RMDup.{ext}", "w")
             if ext == "sh":
                 os.system("chmod +x RMDup.sh")
