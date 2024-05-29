@@ -15,7 +15,7 @@ scan the current directory
 
 you can replace `python3` with `./` on linux since there is a shebang, and on windows, replace `python3` with `python`
 
-to do the `./rmdup.py` method, you'll have to run `chmod +x rmdup.py`
+To be able to run the script as `./rmdup.py`, you'll have to run the command `chmod +x rmdup.py`
 
 The output will only list files that have the same hash, and no single files
 
@@ -30,7 +30,7 @@ ad5678997cade8869e64a90cded854fa
 
 if there are no duplicate files, it'll print `No Duplicate files`
 
-IF you have dupliicates, it'll ask you which one you want to Keep and delete the others, answer with an interger, because otherwise, it'll skip it (you can use this to your advantage to skip files where you want to delete none)
+If you have dupliicates, it'll ask you which one you want to Keep and delete the others, answer with an interger, because otherwise, it'll skip it (you can use this to your advantage to skip files where you want to delete none)
 
 It writes it into a shell or batch script, so it won't delete the files until you run the shell or batch script, but it'll ask you in the program if you want to delete them now, type "y" to do so, otherwise, it exits the program.
 
